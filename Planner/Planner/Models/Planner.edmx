@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PlannerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="adminAssign">
+          <Key>
+            <PropertyRef Name="assignmentID" />
+          </Key>
+          <Property Name="assignmentID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="courseID" Type="int" Nullable="false" />
+          <Property Name="assignment" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="startDate" Type="date" Nullable="false" />
+          <Property Name="endDate" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Class">
+          <Key>
+            <PropertyRef Name="courseID" />
+          </Key>
+          <Property Name="courseID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="className" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="taskID" />
+          </Key>
+          <Property Name="taskID" Type="int" Nullable="false" />
+          <Property Name="taskType" Type="varchar" MaxLength="20" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\PLANNER\PLANNER\APP_DATA\PLANNER.MDF.dbo.userAssign' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="userAssign">
+          <Key>
+            <PropertyRef Name="assignmentID" />
+            <PropertyRef Name="steps" />
+            <PropertyRef Name="data" />
+            <PropertyRef Name="date" />
+          </Key>
+          <Property Name="assignmentID" Type="int" Nullable="false" />
+          <Property Name="steps" Type="int" Nullable="false" />
+          <Property Name="data" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="date" Type="date" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_adminAssign_Class">
+          <End Role="Class" Type="Self.Class" Multiplicity="1" />
+          <End Role="adminAssign" Type="Self.adminAssign" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="courseID" />
+            </Principal>
+            <Dependent Role="adminAssign">
+              <PropertyRef Name="courseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PlannerModelStoreContainer">
+          <EntitySet Name="adminAssign" EntityType="Self.adminAssign" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Class" EntityType="Self.Class" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Task" EntityType="Self.Task" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="userAssign" EntityType="Self.userAssign" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [userAssign].[assignmentID] AS [assignmentID], 
+    [userAssign].[steps] AS [steps], 
+    [userAssign].[data] AS [data], 
+    [userAssign].[date] AS [date]
+    FROM [dbo].[userAssign] AS [userAssign]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_adminAssign_Class" Association="Self.FK_adminAssign_Class">
+            <End Role="Class" EntitySet="Class" />
+            <End Role="adminAssign" EntitySet="adminAssign" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PlannerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="adminAssign">
+          <Key>
+            <PropertyRef Name="assignmentID" />
+          </Key>
+          <Property Name="assignmentID" Type="Int32" Nullable="false" />
+          <Property Name="courseID" Type="Int32" Nullable="false" />
+          <Property Name="assignment" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="startDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="endDate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Class" Relationship="Self.FK_adminAssign_Class" FromRole="adminAssign" ToRole="Class" />
+          <NavigationProperty Name="userAssigns" Relationship="Self.FK_userAssign_adminAssign" FromRole="adminAssign" ToRole="userAssign" />
+          </EntityType>
+        <EntityType Name="Class">
+          <Key>
+            <PropertyRef Name="courseID" />
+          </Key>
+          <Property Name="courseID" Type="Int32" Nullable="false" />
+          <Property Name="className" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="adminAssigns" Relationship="Self.FK_adminAssign_Class" FromRole="Class" ToRole="adminAssign" />
+        </EntityType>
+        <EntityType Name="Task">
+          <Key>
+            <PropertyRef Name="taskID" />
+          </Key>
+          <Property Name="taskID" Type="Int32" Nullable="false" />
+          <Property Name="taskType" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityType Name="userAssign">
+          <Key>
+            <PropertyRef Name="assignmentID" />
+            <PropertyRef Name="steps" />
+            <PropertyRef Name="data" />
+            <PropertyRef Name="date" />
+          </Key>
+          <Property Name="assignmentID" Type="Int32" Nullable="false" />
+          <Property Name="steps" Type="Int32" Nullable="false" />
+          <Property Name="data" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="adminAssign" Relationship="Self.FK_userAssign_adminAssign" FromRole="userAssign" ToRole="adminAssign" />
+        </EntityType>
+        <Association Name="FK_adminAssign_Class">
+          <End Role="Class" Type="Self.Class" Multiplicity="1" />
+          <End Role="adminAssign" Type="Self.adminAssign" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="courseID" />
+            </Principal>
+            <Dependent Role="adminAssign">
+              <PropertyRef Name="courseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_userAssign_adminAssign">
+          <End Role="adminAssign" Type="Self.adminAssign" Multiplicity="1" />
+          <End Role="userAssign" Type="Self.userAssign" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="adminAssign">
+              <PropertyRef Name="assignmentID" />
+            </Principal>
+            <Dependent Role="userAssign">
+              <PropertyRef Name="assignmentID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PlannerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="adminAssigns" EntityType="Self.adminAssign" />
+          <EntitySet Name="Classes" EntityType="Self.Class" />
+          <EntitySet Name="Tasks" EntityType="Self.Task" />
+          <EntitySet Name="userAssigns" EntityType="Self.userAssign" />
+          <AssociationSet Name="FK_adminAssign_Class" Association="Self.FK_adminAssign_Class">
+            <End Role="Class" EntitySet="Classes" />
+            <End Role="adminAssign" EntitySet="adminAssigns" />
+          </AssociationSet>
+          <AssociationSet Name="FK_userAssign_adminAssign" Association="Self.FK_userAssign_adminAssign">
+            <End Role="adminAssign" EntitySet="adminAssigns" />
+            <End Role="userAssign" EntitySet="userAssigns" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PlannerModelStoreContainer" CdmEntityContainer="PlannerEntities">
+          <EntitySetMapping Name="adminAssigns">
+            <EntityTypeMapping TypeName="PlannerModel.adminAssign">
+              <MappingFragment StoreEntitySet="adminAssign">
+                <ScalarProperty Name="assignmentID" ColumnName="assignmentID" />
+                <ScalarProperty Name="courseID" ColumnName="courseID" />
+                <ScalarProperty Name="assignment" ColumnName="assignment" />
+                <ScalarProperty Name="startDate" ColumnName="startDate" />
+                <ScalarProperty Name="endDate" ColumnName="endDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Classes">
+            <EntityTypeMapping TypeName="PlannerModel.Class">
+              <MappingFragment StoreEntitySet="Class">
+                <ScalarProperty Name="courseID" ColumnName="courseID" />
+                <ScalarProperty Name="className" ColumnName="className" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tasks">
+            <EntityTypeMapping TypeName="PlannerModel.Task">
+              <MappingFragment StoreEntitySet="Task">
+                <ScalarProperty Name="taskID" ColumnName="taskID" />
+                <ScalarProperty Name="taskType" ColumnName="taskType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="userAssigns">
+            <EntityTypeMapping TypeName="PlannerModel.userAssign">
+              <MappingFragment StoreEntitySet="userAssign">
+                <ScalarProperty Name="assignmentID" ColumnName="assignmentID" />
+                <ScalarProperty Name="steps" ColumnName="steps" />
+                <ScalarProperty Name="data" ColumnName="data" />
+                <ScalarProperty Name="date" ColumnName="date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

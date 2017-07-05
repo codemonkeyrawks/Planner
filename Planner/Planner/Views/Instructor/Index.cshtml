@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+
+<html ng-app="Planner" lang="en-us">
+<head>
+    <title>Home</title>
+    <script src="~/Scripts/jquery-3.1.1.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script src="~/Scripts/angular.js"></script>
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/fonts/fontawesome-webfont.woff2" rel="stylesheet" />
+    <script src="~/Scripts/Shared/planner.module.js"></script>
+    <script src="~/Scripts/Shared/planner.service.js"></script>
+    <script src="~/Scripts/Instructor/home.controller.js"></script>
+</head>
+<body style="background-color: #c8c8c8">
+    <div ng-controller="HomeCtrl as vm">
+        <div class="container-fluid" style="margin: 20px; background-color: #c8c8c8; max-width: 380px; margin: 30px auto">
+
+            <div id="main-1">
+
+                <!-- Header -->
+                <div class="row" style="border-radius: 20px 20px 0px 0px; border-left: 1px solid black; border-right: 1px solid black; border-top: 1px solid black; background-color: #00a8e2">
+                    <div class="col-md-12" style="text-align: center">
+                        <img src="~/Content/Logo.png" width="332" height="75" style="padding-top:20px" />
+                        <h2 style="color: white; font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">INSTRUCTOR VIEW</h2>
+                    </div>
+                </div>
+
+                <!-- Body -->
+                <div class="row panel-footer" style="border-left: 1px solid black; border-right: 1px solid black">
+                    <div class="col-md-12">
+                        <table class="center-block table">
+                            <tr>
+                                <td>
+                                    <h4>
+                                        Task Type:
+                                    </h4>
+                                </td>
+                                <td>
+                                    <select class="form-control" ng-model="tasker" ng-init='tasker = "essay"'>
+                                        <option ng-repeat="task in vm.task">{{task}}</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4>
+                                        Class:
+                                    </h4>
+                                </td>
+                                <td>
+                                    <select class="form-control" ng-model="classer" ng-init='classer = "ITM 310"'>
+                                        <option ng-repeat="class in vm.class">{{class}}</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4>
+                                        Assignment:
+                                    </h4>
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control" ng-model="assignment" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4>
+                                        Start Date:
+                                    </h4>
+                                </td>
+                                <td>
+                                    <input type="date" class="form-control" ng-model="time1" required />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h4>
+                                        End Date:
+                                    </h4>
+                                </td>
+                                <td>
+                                    <input type="date" class="form-control" ng-model="time2" required />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <h4>Step #1:</h4>
+                                    <textarea class="form-control" rows="3" style="resize: vertical" ng-model="area1"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <h4>Step #2:</h4>
+                                    <textarea class="form-control" rows="3" style="resize: vertical" ng-model="area2"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <h4>Step #3:</h4>
+                                    <textarea class="form-control" rows="3" style="resize: vertical" ng-model="area3"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" style="text-align: center">
+                                    <br />
+                                    <button ng-hide="true" type="button" class="btn btn-primary"><i class="fa fa-plus-circle" aria-hidden="true"></i>&nbsp;Add&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                                    <button ng-hide="true" type="button" class="btn btn-primary"><i class="fa fa-minus-circle" aria-hidden="true"></i>&nbsp;Remove</button>
+                                    <button type="button" class="btn btn-primary" ng-click=vm.submit(assignment,time1,time2,area1)><i class="fa fa-sign-in" aria-hidden="true"></i>&nbsp;Submit</button>
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="row panel-footer" style="border-radius: 0px 0px 20px 20px; border-left: 1px solid black; border-right: 1px solid black; border-bottom: 1px solid black; background-color: #00a8e2">
+                    <div class="col-md-12">
+                        <h4 style="text-align: center">Copyright 2017 - Boise State University</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
